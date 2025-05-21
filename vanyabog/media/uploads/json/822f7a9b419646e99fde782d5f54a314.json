@@ -1,0 +1,16 @@
+{
+    "test": {
+        "id": "test-001",
+        "created_at": "2025-05-13T22:36:07.812508",
+        "num_questions": "5",
+        "difficulty": "light",
+        "supported_languages": [
+            "ru"
+        ],
+        "options_per_question": 4,
+        "detail_level": "basic",
+        "output_format": "json",
+        "questions": []
+    },
+    "num_questions": 0
+}

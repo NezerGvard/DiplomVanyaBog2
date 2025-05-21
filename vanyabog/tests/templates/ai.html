@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="{% static 'js/index.js' %}"></script>
+    <title>Document</title>
+</head>
+<body>
+    {% include 'header.html' %}
+    <div class="cont-ai-form">
+        <form method="post" enctype="multipart/form-data" style="margin-top: 50px;" class="ai-form">
+            {% csrf_token %}
+            <div class="f-column-1">
+                <div class="file">
+                    <label for="{{ form.file.id_for_label }}"><h3>Загрузка файлов:</h3></label>
+                    <div class="custom-file-upload">
+                        {{ form.file }}
+                        <button type="button" class="custom-file-button">Выберите файл</button>
+                    </div>
+                </div>
+                <h4 id="property_model">Mistral Pixtral-12B-2409 - открытая мультимодальная модель с 12B языковых и 400M визуальных параметров. Обрабатывает текст и изображения, поддерживает до 128K токенов. Превосходит аналоги в задачах DocVQA (93,3%), ChartQA (88,1%), MathVista (69,4%). Лицензия Apache 2.0.</h4>
+            </div>
+            <div class="f-column-2">
+                <div class="field">
+                    <label for="{{ form.name.id_for_label }}"><h3>Название</h3></label>
+                    {{ form.name }}
+                </div>
+                <div class="field">
+                    <label for="{{ form.question_count.id_for_label }}"><h3>Количество вопросов</h3></label>
+                    {{ form.question_count }}
+                </div>
+                <div class="field">
+                    <label for="{{ form.difficulty.id_for_label }}"><h3>Сложность</h3></label>
+                    {{ form.difficulty }}
+                </div>
+                <div class="field">
+                    <label for="temperature"><h3>Креативность</h3></label>
+                    <input type="number" min="0" max="1" step="0.1" value="0.6">
+                </div>
+                <div class="field">
+                    <label for="max_tokens"><h3>Максимальное кол-во токенов</h3></label>
+                    <input type="number" min="10" max="1280000" step="1" value="32000">
+                </div>
+                <div class="field">
+                    <label for="top_p"><h3>Дополнительная настройка креативности</h3></label>
+                    <input type="number" min="0" max="1" step="0.1" value="0.6">
+                </div>
+                <div class="field">
+                    <select name="ai_model" id="ai_model">
+                        <option value="mistal">Mistral</option>
+                        <option value="deepseek">DeepSeek</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <button type="submit" class="generate-button">Сгенерировать</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <script>
+        document.getElementById('ai_model').addEventListener('change', function() {
+            var selectedOption = this.value;
+            if (selectedOption == 'mistal'){
+                document.getElementById('property_model').innerHTML = "Mistral Pixtral-12B-2409 - открытая мультимодальная модель с 12B языковых и 400M визуальных параметров. Обрабатывает текст и изображения, поддерживает до 128K токенов. Превосходит аналоги в задачах DocVQA (93,3%), ChartQA (88,1%), MathVista (69,4%). Лицензия Apache 2.0."
+            }
+            if (selectedOption == 'deepseek'){
+                document.getElementById('property_model').innerHTML = "DeepSeek - это современная нейросеть нового поколения, предлагающая пользователям мощные инструменты искусственного интеллекта по доступной цене (от $2,18 за миллион токенов против $60 у OpenAI). Платформа поддерживает русский язык, обрабатывает большие объемы текста (до 128 000 токенов), работает быстро и надежно. DeepSeek подходит как для профессионалов, так и для новичков, обеспечивая широкий спектр функций: генерация текстов, программирование, анализ данных и создание изображений. Бесплатный доступ и интуитивный интерфейс делают DeepSeek оптимальным выбором для эффективной работы с ИИ."
+            }
+        });
+    </script>
+</body>
+</html>

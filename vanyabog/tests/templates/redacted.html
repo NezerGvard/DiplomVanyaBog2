@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="{% static 'js/index.js' %}"></script>
+    <title>Document</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let form = document.getElementById('form');
+            if (form) {
+                form.reset();
+            }
+            q_number = 0
+            // Сохраняем первый блок как шаблон
+            let templateBlock = null;
+            let formBlocks = document.querySelectorAll('.form-block');
+            if (formBlocks.length > 0) {
+                templateBlock = formBlocks[0].cloneNode(true);
+                templateBlock.id = 'template-block';
+                templateBlock.style.display = 'none';
+                document.body.appendChild(templateBlock);
+            }
+
+            formBlocks.forEach(block => {
+                q_number++
+                const deleteButton = document.createElement('button');
+                deleteButton.type = 'button';
+                deleteButton.className = 'delete-button';
+                deleteButton.textContent = 'Удалить';
+                deleteButton.onclick = function() {
+                    deleteBlock(block);
+                };
+
+                let div = document.createElement('div');
+                div.classList = 'container'
+                let subDiv = document.createElement('div');
+                subDiv.className = "button-form";
+                div.appendChild(document.createElement('p'));
+                subDiv.appendChild(deleteButton);
+                div.appendChild(subDiv);
+                block.appendChild(div);
+            });
+
+            function addFormButton(button, form) {
+                let div = document.createElement('div');
+                div.classList = 'form-block';
+                let subDiv = document.createElement('div');
+                let subSubDiv = document.createElement('div');
+                subSubDiv.className = "button-form";
+                subDiv.appendChild(document.createElement('p'));
+                subDiv.className = "container";
+                subSubDiv.appendChild(button);
+                subDiv.appendChild(subSubDiv);
+                div.appendChild(subDiv);
+                return div;
+            }
+
+            // Добавляем кнопку "Add" в конец формы
+            let addBlockButton = document.createElement('button');
+            addBlockButton.type = 'button';
+            addBlockButton.className = 'add-button';
+            addBlockButton.textContent = 'Добавить';
+            addBlockButton.onclick = function() {
+                addBlock();
+            };
+            form.appendChild(addFormButton(addBlockButton, form));
+
+            // Добавляем кнопку "Submit" в конец формы
+            let submitButton = document.createElement('button');
+            submitButton.type = 'submit';
+            submitButton.className = 'submit';
+            submitButton.textContent = 'Сохранить';
+            form.appendChild(addFormButton(submitButton, form));
+        });
+
+        function deleteBlock(block) {
+            q_number--
+            console.log('Delete button clicked');
+            // Удаляем блок из DOM
+            block.remove();
+        }
+
+        function autoResize(textarea) {
+            let mirror = document.getElementById('mirror-div');
+            if (!mirror) {
+                mirror = document.createElement('div');
+                mirror.id = 'mirror-div';
+                document.body.appendChild(mirror);
+            }
+
+            const styles = window.getComputedStyle(textarea);
+            mirror.style.position = 'absolute';
+            mirror.style.top = '-9999px';
+            mirror.style.left = '-9999px';
+            mirror.style.width = textarea.clientWidth + 'px';
+            mirror.style.fontSize = styles.fontSize;
+            mirror.style.fontFamily = styles.fontFamily;
+            mirror.style.fontWeight = styles.fontWeight;
+            mirror.style.lineHeight = styles.lineHeight;
+            mirror.style.letterSpacing = styles.letterSpacing;
+            mirror.style.padding = styles.padding;
+            mirror.style.border = styles.border;
+            mirror.style.boxSizing = styles.boxSizing;
+            mirror.style.whiteSpace = 'pre-wrap';
+            mirror.style.wordWrap = 'break-word';
+            mirror.style.overflowWrap = 'break-word';
+            mirror.style.visibility = 'hidden';
+
+            mirror.innerHTML = textarea.value
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/\n$/g, '\n.')
+                .replace(/\n/g, '<br>');
+
+            const newHeight = mirror.scrollHeight + 2;
+            textarea.style.height = newHeight + 'px';
+        }
+
+        function addBlock() {
+            q_number++
+            console.log('Add button clicked');
+            let form = document.getElementById('form');
+            if (form) {
+                // Находим шаблонный блок
+                let templateBlock = document.getElementById('template-block');
+                if (templateBlock) {
+                    // Клонируем шаблонный блок
+                    let newBlock = templateBlock.cloneNode(true);
+                    newBlock.id = ''; // Убираем id у клонированного блока
+                    newBlock.style.display = 'block'; // Убираем стиль display: none
+
+                    // Очищаем значения первых 7 полей
+                    let name = Math.floor(Math.random() * (q_number + 10000000 - q_number+100 + 1) + q_number+100)
+                    let inputs = newBlock.querySelectorAll('input, textarea, select, button');
+                    inputs.forEach((input, index) => {
+                        input.addEventListener('input', function() {
+                            autoResize(input);
+                        });
+                        if (index < 10) {
+                            if (input.type === 'radio' || input.type === 'checkbox') {
+                                input.checked = false;
+                            } else {
+                                input.value = '';
+                                input.className = "auto-resize";
+                                autoResize(input);
+                            }
+                        }
+                        switch (index){
+                            case 0: {input.name = `q-${name}`} break;
+                            case 1: {input.name = `o-q-${name}`} break;
+                            // обработка вопроса нейросетью
+                            case 2: {input.addEventListener('click', function() {
+                                    askMistral(inputs[0], function(error, response) {
+                                        if (error) {
+                                            console.error('Error:', error);
+                                        } else {
+                                            let arrayQ = []
+                                            let q = response.split('\n')
+                                            for (i = 0; i < q.length; i++){
+                                                q[i] = q[i].replace(/"/g, '').trimEnd();
+                                                if (q[i].slice(-1) == '?'){
+                                                    console.log(q[i].slice(3));
+                                                    arrayQ.push(q[i].slice(3))
+                                                }
+                                                else{
+                                                    console.log('e', q[i], q[i].slice(-1));
+                                                }
+                                            }
+                                            let w = document.querySelectorAll('.window')[0]
+
+                                            w.innerHTML = "";
+                                            let w_div = document.createElement('div');
+                                            console.log(arrayQ);
+                                            
+                                            arrayQ.forEach(element => {
+                                                let w_button = document.createElement('button');
+                                                w_button.setAttribute('type', 'button');
+                                                w_button.innerHTML = 'Выбрать';
+                                                w_button.addEventListener('click', function() {
+                                                    w.style.display = 'none';
+                                                    inputs[0].value = element;
+                                                    autoResize(inputs[0]);
+                                                });
+
+                                                let w_p = document.createElement('p');
+                                                w_p.innerHTML = element;
+
+                                                w_div.appendChild(w_button);
+                                                w_div.appendChild(w_p);
+                                            });
+
+                                            w.style.display = 'flex';
+                                            w.appendChild(w_div);
+
+                                            let w_close_button = document.createElement('button')
+                                            w_close_button.setAttribute('type', 'button');
+                                            w_close_button.addEventListener('click', function() {
+                                                w.style.display = 'none'
+                                            })
+                                            w_close_button.innerHTML = 'Закрыть'
+                                            w_close_button.className = 'closeWindow'
+                                            w.appendChild(w_close_button)
+
+                                            
+                                            console.log('Response:', response);
+                                        }})
+                                });} break;
+                            case 3: {input.name = `q-${name}_0`} break;
+                            case 4: {input.name = `q-${name}_1`} break;
+                            case 5: {input.name = `q-${name}_2`} break;
+                            case 6: {input.name = `q-${name}_3`} break;
+                            case 7: {input.name = `q-${name}_right`} break;
+                            case 8: {input.name = `q-${name}_hint`} break;
+                            case 9: {input.name = `q-${name}_explanation`} break;
+                            case 10: {input.name = `q-${name}_difficulty`} break;
+                        }
+                    });
+
+                    // Обновляем номер вопроса
+                    let questionLabel = newBlock.querySelector('label[for^="id_q-"]');
+                    if (questionLabel) {
+                        questionLabel.textContent = `Вопрос №${q_number}:`;
+                    }
+
+                    const deleteButton = document.createElement('button');
+                    deleteButton.type = 'button';
+                    deleteButton.className = 'delete-button';
+                    deleteButton.textContent = 'Удалить';
+                    deleteButton.onclick = function() {
+                        deleteBlock(newBlock);
+                    };
+
+                    let div = document.createElement('div');
+                    let subDiv = document.createElement('div');
+                    subDiv.className = "button-form";
+                    div.appendChild(document.createElement('p'));
+                    subDiv.appendChild(deleteButton);
+                    div.appendChild(subDiv);
+                    newBlock.appendChild(div);
+
+                    // Находим кнопку "Add"
+                    let addButton = form.querySelector('.add-button');
+                    if (addButton) {
+                        // Вставляем новый блок перед кнопкой "Add"
+                        form.insertBefore(newBlock, addButton.closest('.form-block'));
+                    } else {
+                        // Если кнопки "Add" нет, добавляем новый блок в конец формы
+                        form.appendChild(newBlock);
+                    }
+                }
+            }
+        }
+        function askMistral(element, callback) {
+            const url = "https://api.mistral.ai/v1/chat/completions";
+            const headers = {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer 1RjvjtgXwhXKqKR1WqKrqFUtuOoeaU9f"
+            };
+
+            let q1 = document.querySelectorAll(`[name="${element.name}_0"]`)[0]
+            let q2 = document.querySelectorAll(`[name="${element.name}_1"]`)[0]
+            let q3 = document.querySelectorAll(`[name="${element.name}_2"]`)[0]
+            let q4 = document.querySelectorAll(`[name="${element.name}_3"]`)[0]
+            let qRight = document.querySelectorAll(`[name="${element.name}_right"]`)[0]
+            let option = document.querySelectorAll(`[name="o-${element.name}"]`)[0]
+            let style = ""
+            switch (option.value){
+                case 'option1': style = "Официальный/академический"; break;
+                case 'option2': style = "Разговорный/дружелюбный"; break;
+                case 'option3': style = "Экзаменационный (ЕГЭ/ОГЭ)"; break;
+                case 'option4': style = "Креативный/игровой"; break;
+                case 'option5': style = "Лаконичный"; break;
+            }
+            let prompt = `
+                Отредактируй вопрос: "${element.value}" в стиле ${style}.
+
+                Пример ответа на вопрос:
+                1. ${q1.value}
+                2. ${q2.value}
+                3. ${q3.value}
+                4. ${q4.value}
+
+                Верный ответ: ${qRight.value}
+
+                В ОТВЕТЕ ВЕРНИ ТОЛЬКО ЧЕТЫРЕ ВАРИАНТА ОТРЕДАКТИРОВАННЫХ ВОПРОСОВ, НЕ ОТВЕТОВ. НУЖНО ДЛЯ ВЫБОРА НЕСКОЛЬКИХ ПРЕДЛОЖЕНИЙ, КАКОЙ ВОПРОС БУДЕТ ЛУЧШЕ.
+            `
+            console.log(q1.value, q2.value, q3.value, q4.value, qRight.value, style);
+            const data = {
+                model: "pixtral-12b-2409",
+                messages: [
+                    { role: "user", content: prompt }
+                ]
+            };
+
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.setRequestHeader("Authorization", "Bearer 1RjvjtgXwhXKqKR1WqKrqFUtuOoeaU9f");
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        const response = JSON.parse(xhr.responseText);
+                        callback(null, response.choices[0].message.content);
+                    } else {
+                        callback(new Error('Request failed with status: ' + xhr.status));
+                    }
+                }
+            };
+
+            xhr.send(JSON.stringify(data));
+        }
+    </script>
+</head>
+<body>
+    {% include 'header.html' %}
+    <form method="post" id="form" style="margin-top: 50px;" class="form-redacted">
+        {% csrf_token %}
+        <div style="margin-top: 20px;"></div>
+        {% for field in form %}
+            {% if forloop.counter0|divisibleby:9 and not forloop.first %}
+                </div><div class="form-block">
+            {% endif %}
+            {% if forloop.first %}
+                <div class="form-block">
+            {% endif %}
+            <div>{{ field.label_tag }} {{ field }}</div>
+            {% if forloop.last %}
+                </div>
+            {% endif %}
+        {% endfor %}
+    </form>
+    <div class="window">
+        <div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('textarea.auto-resize').forEach(function(textarea) {
+                autoResize(textarea);
+                textarea.addEventListener('input', function() {
+                    autoResize(textarea);
+                });
+            });
+
+            document.querySelectorAll('textarea.question').forEach(function(textarea) {
+                // Создаем новый div элемент
+                const div = document.createElement('div');
+                div.className = 'conteiner-q'
+                // Создаем элемент абзаца
+                const newTextarea = document.createElement('textarea');
+                newTextarea.addEventListener('input', function() {
+                    autoResize(newTextarea);
+                });
+                
+                // Копируем содержимое из textarea в абзац
+                newTextarea.textContent = textarea.value;
+                newTextarea.className = textarea.classList
+                newTextarea.style.cssText = textarea.style.cssText
+                newTextarea.name = textarea.name
+
+
+                const selectElement = document.createElement('select');
+                selectElement.name = `o-${newTextarea.name}`;
+                const options = [
+                    { value: 'option1', text: 'Официальный/академический' },
+                    { value: 'option2', text: 'Разговорный/дружелюбный' },
+                    { value: 'option3', text: 'Экзаменационный (ЕГЭ/ОГЭ)' },
+                    { value: 'option4', text: 'Креативный/игровой' },
+                    { value: 'option5', text: 'Лаконичный' },
+                ];
+
+                options.forEach(function(option) {
+                    const optionElement = document.createElement('option');
+                    optionElement.value = option.value;
+                    optionElement.textContent = option.text;
+                    selectElement.appendChild(optionElement);
+                });
+
+                const button = document.createElement('button')
+                button.addEventListener('click', function() {
+                    askMistral(newTextarea, function(error, response) {
+                        if (error) {
+                            console.error('Error:', error);
+                        } else {
+                            let arrayQ = []
+                            let q = response.split('\n')
+                            for (i = 0; i < q.length; i++){
+                                q[i] = q[i].replace(/"/g, '').trimEnd();
+                                if (q[i].slice(-1) == '?'){
+                                    console.log(q[i].slice(3));
+                                    arrayQ.push(q[i].slice(3))
+                                }
+                                else{
+                                    console.log('e', q[i], q[i].slice(-1));
+                                }
+                            }
+                            let w = document.querySelectorAll('.window')[0]
+
+                            w.innerHTML = "";
+                            let w_div = document.createElement('div');
+                            console.log(arrayQ);
+                            
+                            arrayQ.forEach(element => {
+                                let w_button = document.createElement('button');
+                                w_button.setAttribute('type', 'button');
+                                w_button.innerHTML = 'Выбрать';
+                                w_button.addEventListener('click', function() {
+                                    w.style.display = 'none';
+                                    newTextarea.value = element;
+                                    autoResize(newTextarea);
+                                });
+
+                                let w_p = document.createElement('p');
+                                w_p.innerHTML = element;
+
+                                w_div.appendChild(w_button);
+                                w_div.appendChild(w_p);
+                            });
+
+                            w.style.display = 'flex';
+                            w.appendChild(w_div);
+
+                            let w_close_button = document.createElement('button')
+                            w_close_button.setAttribute('type', 'button');
+                            w_close_button.addEventListener('click', function() {
+                                w.style.display = 'none'
+                            })
+                            w_close_button.innerHTML = 'Закрыть'
+                            w_close_button.className = 'closeWindow'
+                            w.appendChild(w_close_button)
+
+                            
+                            console.log('Response:', response);
+                        }})
+                });
+                button.innerHTML = 'Редактировать'
+                button.type = 'button';
+
+                // Добавляем абзац в div
+                div.appendChild(newTextarea);
+                div.appendChild(selectElement);
+                div.appendChild(button)
+                textarea.parentNode.insertBefore(div, textarea);
+
+                // Удаляем textarea
+                textarea.remove();
+                autoResize(newTextarea);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="{% static 'js/index.js' %}"></script>
+    <title>Document</title>
+</head>
+<body>
+    {% include 'header.html' %}
+    <div style="font-size: 36px; margin-left: 20px; padding: 20px; display: grid; grid-row: 2; margin-top: 50px;">
+        <div class="a-ai-generate">
+            <a href="/ai">
+                <svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                      <mask id="cutout">
+                        <!-- Всё полностью непрозрачное -->
+                        <rect width="128" height="128" fill="white" />
+                        
+                        <!-- Вырезаем полоску заголовка -->
+                        <rect x="36" y="34" width="56" height="8" rx="4" fill="black" />
+                        
+                        <!-- Вырезаем галочку -->
+                        <path d="M47 78l13 13 27-27a4 4 0 1 0-5.7-5.7L60 80.6l-7.3-7.3a4 4 0 0 0-5.7 5.7z" fill="black"/>
+                      </mask>
+                    </defs>
+                  
+                    <!-- Основная форма с маской -->
+                    <path d="
+                      M18,10 
+                      h76 
+                      l24,24 
+                      v74 
+                      a10,10 0 0 1 -10,10 
+                      h-80 
+                      a10,10 0 0 1 -10,-10 
+                      v-88 
+                      a10,10 0 0 1 10,-10 
+                      z" 
+                      fill="#13589C"
+                      mask="url(#cutout)"
+                    />
+                  </svg>
+                  <h3>Генератор тестов</h3>
+            </a>
+        </div>
+    </div>
+    
+      
+      
+      
+    
+</body>
+</html>

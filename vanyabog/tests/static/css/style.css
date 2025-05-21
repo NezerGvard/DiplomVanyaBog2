@@ -1,0 +1,538 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    width: 100vw;
+    background-color: #cef2f5;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
+input[type="file"]{
+    width: auto;
+    height: auto;
+    border: 2px rgb(65, 65, 65) solid;
+    border-radius: 20px;
+    background-color: rgb(26, 26, 26);
+}
+
+input[type="text"]{
+    display: inline-flex;
+    width: auto;
+}
+
+input[type="textarea"]{
+    border-radius: 100%;
+}
+
+.end-sections-form{
+    margin-bottom: 20px;
+    width: auto;
+    border-bottom: 1px black solid;
+}
+
+.form-redacted, .a-form {
+    gap: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.auto-resize {
+    width: auto;
+    min-height: 28px;
+    height: 28px;
+    overflow: hidden;
+    resize: none;
+    box-sizing: border-box;
+    padding: 4px;
+    line-height: 1.4;
+    font-size: 16px;
+}
+
+.a-form div{
+    gap: 10px;
+    width: 90%;
+    display: grid;
+    grid-column: 4;
+    grid-template-columns: 100px auto auto auto;
+}
+
+.form-redacted .form-block{
+    width: 90%;
+    padding: 20px;
+    border-radius: 20px;
+}
+
+.form-redacted .form-block > div{
+    width: 90%;
+    margin-top: 10px;
+    display: grid;
+    grid-column: 2;
+    grid-template-columns: 100px auto;
+}
+
+.container{
+    grid-column: 1;
+    grid-template-columns: 100%;
+}
+
+.form-block div textarea {
+    border: 1px rgb(107, 107, 107) dashed;
+    border-radius: 5px;
+    color: #03045E;
+    background-color: #d6f2f5;
+}
+
+.form-block{
+    background-color: #dffbfa;
+    color: #03045E;
+}
+
+.delete-button, .add-button, .submit {
+    width: 100%;
+    grid-template-columns: 100%;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+
+
+.delete-button {
+    border: none;
+    height: 50px;
+    background-color: rgba(255, 0, 0, 0.623);
+    color: white;
+    border-radius: 5px;
+    -webkit-box-shadow: 0px 5px 10px 2px rgba(255, 255, 255, 0.2) inset;
+    -moz-box-shadow: 0px 5px 10px 2px rgba(255, 255, 255, 0.2) inset;
+    box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2) inset;
+}
+
+.add-button, .submit {
+    border: none;
+    height: 50px;
+    background-color: rgba(0, 128, 0, 0.767);
+    color: white;
+    border-radius: 5px;
+}
+
+.submit {
+    background-color: orange;
+}
+
+.conteiner-q{
+    width: 100%;
+    display: grid;
+    grid-column: 2;
+    gap: 10px;
+    grid-template-columns: 55% 25% auto;
+    grid-row: 1;
+}
+
+.conteiner-q select, .conteiner-q button, .form-redacted .form-block > div select{
+    height: 30px;
+    background-color: #1f5288;
+    color: #e7e7e7;
+    border-radius: 5px;
+    border: none;
+    padding: 5px;
+}
+
+.conteiner-q .question{
+    width: auto;
+}
+
+.window {
+    width: 50%;
+    height: 50%;
+    border: none;
+    background-color: inherit;
+    border-radius: 20px;
+    display: none; /* Используем flexbox */
+    flex-direction: column; /* Располагаем элементы в колонку */
+    justify-content: space-between; /* Распределяем пространство между элементами */
+    position: fixed;
+    z-index: 999;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-box-shadow: 0px 5px 10px 2px rgba(139, 139, 139, 0.2);
+    -moz-box-shadow: 0px 5px 10px 2px rgba(139, 139, 139, 0.2);
+    box-shadow: 0px 5px 10px 2px rgba(139, 139, 139, 0.2);
+    color: #03045E;
+}
+
+.window *{
+    z-index: 1000;
+}
+
+.window div{
+    text-align: justify;
+    margin: 20px;
+    width: 90%;
+    display: grid;
+    grid-template-columns: 30% 70%;
+}
+
+.window div button {
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 20px;
+    height: 30px;
+    background-color: #1f5288;
+    color: #cef2f5;
+    border-radius: 5px;
+    border: none;
+}
+
+
+.closeWindow{
+    margin: 20px;
+    height: 50px;
+    background-color: #1f5288;
+    color: #cef2f5;
+    border-radius: 7px;
+    border: none;
+}
+
+
+
+.cont{
+    display: flex;
+    align-self: center;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.auth{
+    border: 2px #75cbf9 solid;
+    border-radius: 20px;
+    text-align: center;
+    width: auto;
+    padding: 50px;
+    padding-left: 150px;
+    padding-right: 150px;
+    background-color: #dffbfa;
+    height: auto;
+    color: #03045E;
+}
+
+.auth form{
+    margin-bottom: 30px;
+}
+
+.auth form button {
+    margin: 20px;
+    padding: 4px;
+    padding-left: 40px;
+    padding-right: 40px;
+    border-radius: 5px;
+    font-size: 16px;
+    border: 2px #75cbf9 solid;
+    background-color: #d6f2f6;
+    color: #03045E;
+}
+
+.auth h2{
+    margin-bottom: 50px;
+}
+
+.auth a{
+    margin: 20px;
+    text-decoration: none;
+    color: #1f5288;
+}
+
+.auth form {
+    align-items: center;
+}
+
+.auth form input {
+    border: 2px #75cbf9 solid;
+    background-color: #d6f2f6;
+    padding: 4px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    color: #03045E;
+}
+
+
+header {
+    margin: 0;
+    margin-top: -50px;
+    display: flex;
+    flex-wrap: nowrap;
+    position: fixed;
+    width: 100vw;
+    height: 50px;
+    gap: 20px;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #1f5288;
+    color: white;
+}
+
+header *{
+    text-decoration: none;
+    color: white;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+header div {
+    display: flex;
+    gap: 20px;
+}
+
+.profile {
+    display: flex;
+    width: 100%;
+    height: auto;
+    margin-top: 50px;
+    justify-content: center;
+    justify-items: center;
+    align-items:flex-start;
+    flex-wrap: wrap;
+}
+
+.profile-tests{
+    margin-top: 20px;
+    display: flex;
+    gap: 20px;
+    font-size: 24px;
+    padding: 40px;
+    width: 80%;
+    border: 1px #75cbf9 solid;
+    border-radius: 20px;
+    align-items: center;
+    color: #03045E;
+    background-color: #e0fbfa;
+}
+
+.profile-tests a{
+    text-decoration: none;
+    color: #d5f2f5;
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.profile-tests div {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.xml{
+    background-color: #2877a5;
+    color: rgb(19, 19, 19);
+    border-radius: 5px;
+}
+
+.pdf{
+    background-color: #2877a5;
+    color: rgb(19, 19, 19);
+    border-radius: 5px;
+    border: none;
+    
+}
+
+.gen-test{
+    background-color: #2877a5;
+    color: rgb(19, 19, 19);
+    border-radius: 5px;
+    border: none;
+}
+
+.profile-delete-button{
+    padding: 5px;
+    width: auto;
+    box-shadow: none;
+    cursor: pointer;
+}
+
+.generate-button{
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border: 1px rgb(46, 46, 46) solid;
+    border-radius: 5px;
+}
+
+.cont-ai-form{
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+}
+
+
+.ai-form {
+    display: grid;
+    grid-template-columns: 50% 50%; /* Две колонки одинаковой ширины */
+    grid-template-rows: auto auto; /* Три строки: две для основных элементов и одна для кнопки */
+    width: 750px;
+    gap: 30px;
+    margin-top: 150px;
+}
+
+.f-column-1, .f-column-2 {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.f-column-2{
+    align-items: center;
+    background-color: #f7fdfe;
+    border-radius: 20px;
+    color: #03045E;
+    width: 100%;
+    justify-content: space-between;
+    -webkit-box-shadow: 0px 5px 10px 2px rgba(202, 240, 248, 0.2) inset;
+    -moz-box-shadow: 0px 5px 10px 2px rgba(202, 240, 248, 0.2) inset;
+    box-shadow: 0px 5px 10px 2px rgba(202, 240, 248, 0.2) inset;
+}
+
+.f-column-2 .field{
+    margin: 20px;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+}
+
+
+.f-column-2 .field input, .f-column-2 .field select, .f-column-2 .field option{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 15px;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 16px;
+    border-radius: 10px;
+    border: 1px #90E0EF solid;
+    background-color: #fcfeff;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+.generate-button{
+    box-sizing: border-box;
+    padding: 10px;
+    width: 100%;
+    height: 40px;
+    border: none;
+    background-color: #2676a3;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+}
+
+
+.f-column-1 .file, .f-column-1 h4{
+    padding: 20px;
+    color: #03045E;
+    background-color: #e1fbfb;
+    border-radius: 20px;
+}
+
+.f-column-1 h4 {
+    -webkit-box-shadow: 0px 5px 10px 2px rgba(202, 240, 248, 0.2) inset;
+    -moz-box-shadow: 0px 5px 10px 2px rgba(202, 240, 248, 0.2) inset;
+    box-shadow: 0px 5px 10px 2px rgba(202, 240, 248, 0.2) inset;
+    text-align: justify;
+    color: #03045E;
+}
+
+.f-column-1 .file{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    -webkit-box-shadow: 0px 5px 10px 2px rgba(202, 240, 248, 0.2) inset;
+    -moz-box-shadow: 0px 5px 10px 2px rgba(202, 240, 248, 0.2) inset;
+    box-shadow: 0px 5px 10px 2px rgba(202, 240, 248, 0.2) inset;
+}
+
+
+.f-column-1 .file input[type="file"]{
+    color: black;
+    background-color: white;
+}
+
+.custom-file-upload {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    background-color: #d7f3f5;
+    height: 200px;
+    border-radius: 15px;
+    align-items: center;
+}
+
+.custom-file-upload input[type="file"] {
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.custom-file-button {
+    background: #ffffff;
+    color: rgb(22, 22, 22);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: auto;
+    height: 45px;
+    margin-left: 50px;
+}
+
+.custom-file-button:hover {
+    background: #2980b9;
+}
+
+.file-name {
+    margin-left: 10px;
+    color: #555;
+}
+
+.a-ai-generate{
+    display: flex;
+    width: 500px;
+    height: auto;
+    justify-items: center;
+    align-items: center;
+    background-color: #75cbf9;
+    text-align: center;
+    border-radius: 15px;
+}
+
+.a-ai-generate a{
+    text-decoration: none;
+    color: #03045E;
+    width: 100%;
+    padding: 20px;
+}
+

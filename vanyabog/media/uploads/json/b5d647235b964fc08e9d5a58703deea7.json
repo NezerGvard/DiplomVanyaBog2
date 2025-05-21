@@ -1,0 +1,91 @@
+{
+    "test": {
+        "id": "test-001",
+        "created_at": "2025-05-11T22:59:08.857680",
+        "num_questions": "5",
+        "difficulty": "hard",
+        "supported_languages": [
+            "ru"
+        ],
+        "options_per_question": 4,
+        "detail_level": "basic",
+        "output_format": "json",
+        "questions": [
+            {
+                "id": "q-001",
+                "type": "",
+                "difficulty": "hard",
+                "question": "Какой из следующих алгоритмов используется для построения минимального ДКА?",
+                "options": [
+                    "Thompson's algorithm",
+                    "Ehrenfeucht-Solomon algorithm",
+                    "Hopcroft's algorithm",
+                    "Kleene's algorithm"
+                ],
+                "right": "Thompson's algorithm",
+                "hint": "Этот алгоритм позволяет построить ДКА без лишних состояний.",
+                "explanation": "Алгоритм Томпсона используется для построения минимального детерминированного конечного автомата (ДКА) из регулярного выражения."
+            },
+            {
+                "id": "q-002",
+                "type": "",
+                "difficulty": "hard",
+                "question": "Какой из следующих символов не является частью алфавита для языка программирования Python?",
+                "options": [
+                    "a",
+                    "b",
+                    "c",
+                    "def"
+                ],
+                "right": "def",
+                "hint": "Это ключевое слово в Python.",
+                "explanation": "В Python 'def' является ключевым словом для определения функции."
+            },
+            {
+                "id": "q-003",
+                "type": "",
+                "difficulty": "hard",
+                "question": "Какой из следующих методов используется для сортировки массивов в C?",
+                "options": [
+                    "sort()",
+                    "order()",
+                    "qsort()",
+                    "arrange()"
+                ],
+                "right": "qsort()",
+                "hint": "Это стандартная библиотечная функция.",
+                "explanation": "Функция qsort() из стандартной библиотеки C используется для быстрой сортировки массивов."
+            },
+            {
+                "id": "q-004",
+                "type": "",
+                "difficulty": "hard",
+                "question": "Какой из следующих алгоритмов используется для поиска пути в графе?",
+                "options": [
+                    "Dijkstra's algorithm",
+                    "Floyd-Warshall algorithm",
+                    "Bellman-Ford algorithm",
+                    "A* algorithm"
+                ],
+                "right": "A* algorithm",
+                "hint": "Использует heuristic для ускорения поиска.",
+                "explanation": "Алгоритм A* используется для поиска пути в графе с использованием эвристики для ускорения процесса."
+            },
+            {
+                "id": "q-005",
+                "type": "",
+                "difficulty": "hard",
+                "question": "Какой из следующих методов используется для шифрования данных?",
+                "options": [
+                    "encrypt()",
+                    "decode()",
+                    "cipher()",
+                    "scramble()"
+                ],
+                "right": "encrypt()",
+                "hint": "Используется для преобразования данных в зашифрованный формат.",
+                "explanation": "Метод encrypt() используется для шифрования данных, превращая их в зашифрованный формат."
+            }
+        ]
+    }
+}

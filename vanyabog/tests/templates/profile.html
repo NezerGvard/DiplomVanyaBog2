@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>Профиль</title>
+</head>
+<script>
+    async function del(fileId) {
+        const url = "http://127.0.0.1:8000/account/profile"; // Добавьте http:// или https://
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')  // Добавьте CSRF токен для защиты от CSRF атак
+                },
+                body: JSON.stringify({ fileId: fileId }) // Отправляем fileId как объект
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const responseData = await response.json();
+            location.reload()
+        } catch (error) {
+            console.error('There was a problem with the fetch operation:', error);
+            alert('There was a problem with the fetch operation: ' + error);
+        }
+    }
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+</script>
+<body>
+    {% load custom_filters %}
+    {% include 'header.html' %}
+    <div style="margin-top: 50px;"></div>
+    <div class="profile">
+        {% for file in files %}
+            <div class="profile-tests">
+                <a href="/redacted/{{ file.file.id }}" class="gen-test">{{ file.file.name }}</a> | 
+                <div><p>скачать:</p> <a href="/media/uploads/xml/{{ file.file.id|replace:'-' }}.xml" class="xml" download="{{ file.file.name }}">Xml</a></div> |
+                <div><p>скачать:</p> <a href="/media/uploads/pdf/{{ file.file.id|replace:'-' }}.pdf" class="pdf" download="{{ file.file.name }}">Pdf</a></div> |
+                <button onclick="del('{{ file.file.id }}')" class="delete-button profile-delete-button">Удалить</button>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

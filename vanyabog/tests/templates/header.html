@@ -1,0 +1,17 @@
+
+{% block header %}
+    <header>
+        <a href="/"><h1>Главная</h1></a>
+        {% if is_authenticated %}
+            <div>
+                <a href="/account/profile"><h2>Профиль</h2></a>|
+                <a href="/account/logout"><h2>Выйти</h2></a>
+            </div>
+        {% else %}
+            <div>
+                <a href="/account/login"><h2>Войти</h2></a>|
+                <a href="/account/register"><h2>Регистрация</h2></a>
+            </div>
+        {% endif %}
+    </header>
+{% endblock %}
